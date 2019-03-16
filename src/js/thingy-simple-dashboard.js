@@ -4,6 +4,7 @@ const thingy = new Thingy({logEnabled: true});
 const temperatureElm = document.getElementById(`temperature-value`);
 const humidityElm = document.getElementById(`humidity-value`);
 
+const metricsToTrack = [];
 const metricElms = {};
 
 /**
@@ -11,7 +12,7 @@ const metricElms = {};
 * @returns {undefined}
 */
 const formatUnit = function(unit) {
-	let formattedUnit = unit;
+	let formattedUnit = unit || '';
 	switch (unit.toLowerCase()) {
 		case 'celsius':
 			formattedUnit = '°C';
@@ -28,33 +29,16 @@ const formatUnit = function(unit) {
 * update a metric
 * @returns {undefined}
 */
-const updateMetric = function(metric, detail) {
-	// console.log(detail);
+const updateMetric = function(e) {
+	console.log(e);
+	const metric = e.type;
 	const elm = metricElms[metric];
+	let detail = e.detail;
+	if (metric === 'gas') {
+		detail = detail.eCO2;
+	}
 	elm.value.textContent = detail.value;
 	elm.unit.textContent = formatUnit(detail.unit);
-};
-
-
-
-/**
-* handle temperature notification
-* @returns {undefined}
-*/
-const temperatureHandler = function(e) {
-	console.log(e);
-	updateMetric('temperature', e.detail);
-	// temperatureElm.textContent = e.detail.value;
-};
-
-/**
- * handle temperature notification
- * @returns {undefined}
- */
-const humidityHandler = function(e) {
-	console.log(e);
-	updateMetric('humidity', e.detail);
-	// humidityElm.textContent = e.detail.value;
 };
 
 
@@ -65,12 +49,11 @@ const humidityHandler = function(e) {
 */
 const start = async function(device) {
 	try {
-	  await device.connect();
-	  device.addEventListener('temperature', temperatureHandler);
-	  device.addEventListener('humidity', humidityHandler);
-	  
-	  await device.temperature.start();
-	  await device.humidity.start();
+		await device.connect();
+		metricsToTrack.forEach( async (metric) => {
+			device.addEventListener(metric.eventName, updateMetric);
+			await device[metric.name].start();
+		});
 	} catch (error) {
 	  console.error(error);
 	}
@@ -84,7 +67,9 @@ const start = async function(device) {
 const stop = async function(device) {
 	try {
 		await device.disconnect();
-		device.removeEventListener('temperature', temperatureHandler);
+		metricsToTrack.forEach( async (metric) => {
+			device.removeEventListener(metric.eventName, updateMetric);
+		});
 	} catch(error)  {
 		console.error(error);
 	}
@@ -92,17 +77,30 @@ const stop = async function(device) {
 
 
 /**
-* find the elements for the metrics and store them into metricElms variable
+* find the elements for the metrics
+* each metric's element MUST HAVE a data-metric attribute with its type name as value (i.e. temperature, gas). These names will be used to do device.[metricName].start, and to identify its event
+* add metric to list of trackable metrics
+* and store elm into metricElms variable
 * @returns {undefined}
 */
-const initMetricElements = function() {
+const initMetrics = function() {
 	const metrics = ['temperature', 'humidity'];
-	metrics.forEach((metric) => {
-		const elm = document.querySelector(`[data-metric="${metric}"]`);
+	const mElms = document.querySelectorAll(`[data-metric]`);
+	mElms.forEach((elm) => {
+		const name = elm.getAttribute('data-metric');
+		const property = elm.getAttribute('data-metric-property');
+		const eventName = elm.getAttribute('data-metric-eventname') || name;
 		const value = elm.querySelector('[data-value');
 		const unit = elm.querySelector('[data-unit');
 
-		metricElms[metric] = {
+		const metric = {
+			name,
+			property,
+			eventName
+		};
+
+		metricsToTrack.push(metric);
+		metricElms[name] = {
 			value,
 			unit
 		};
@@ -132,7 +130,7 @@ const initConnectScreen = function() {
 * @returns {undefined}
 */
 const init = function() {
-	initMetricElements();
+	initMetrics();
 	initConnectScreen();
 };
 

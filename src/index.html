@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="nl-nl">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	
+	<title>template</title>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	<div class="o-content-width">
+		<div class="connect-screen">
+			<input type="button" id="connect-btn" value="connect">
+			<input type="button" id="disconnect-btn" value="disconnect">
+		</div>
+		
+		<div class="dashboard">
+				<div class="temperature-display" data-metric="temperature">
+					Temperature
+					<div class="temperature-value" data-value></div>
+					<div class="temperature-unit" data-unit></div>
+				</div>
+				<div class="humidity-display" data-metric="humidity">
+					Humidity
+					<div class="humidity-value" data-value></div>
+					<div class="humidity-unit" data-unit></div>
+				</div>
+				<div class="gas-display" data-metric="gas">
+					CO<sub>2</sub>
+					<div class="gas-value" data-value></div>
+					<div class="gas-unit" data-unit></div>
+				</div>
+		</div>
+
+	</div><!-- /.o-content-width -->
+	<script type="module" src="js/thingy-simple-dashboard.js"></script>
+</body>
+</html>

@@ -1,11 +1,8 @@
 import Thingy from "./vendor/thingy/index.js";
 
 const thingy = new Thingy({logEnabled: true});
-const temperatureElm = document.getElementById(`temperature-value`);
-const humidityElm = document.getElementById(`humidity-value`);
+const metricsToTrack = new Map();
 
-const metricsToTrack = [];
-const metricElms = {};
 
 /**
 * format a unit
@@ -30,17 +27,16 @@ const formatUnit = function(unit) {
 * @returns {undefined}
 */
 const updateMetric = function(e) {
-	console.log(e);
-	const metric = e.type;
-	const elm = metricElms[metric];
-	let detail = e.detail;
-	if (metric === 'gas') {
-		detail = detail.eCO2;
+	const metric = metricsToTrack.get(e.type);
+	const detail = metric.detailObject ? e.detail[metric.detailObject] : e.detail;
+	const value = metric.detailValueProperty ? detail[metric.detailValueProperty] : detail.value;
+	const unit = detail.unit;
+	
+	metric.elms.value.textContent = value;
+	if (metric.elms.unit && unit) {
+		metric.elms.unit.textContent = formatUnit(unit);
 	}
-	elm.value.textContent = detail.value;
-	elm.unit.textContent = formatUnit(detail.unit);
 };
-
 
 
 /**
@@ -84,28 +80,28 @@ const stop = async function(device) {
 * @returns {undefined}
 */
 const initMetrics = function() {
-	const metrics = ['temperature', 'humidity'];
 	const mElms = document.querySelectorAll(`[data-metric]`);
 	mElms.forEach((elm) => {
 		const name = elm.getAttribute('data-metric');
-		const property = elm.getAttribute('data-metric-property');
+		const detailObject = elm.getAttribute('data-metric-detail-object');// sometimes (e.g. for gas) detail has multiple objects; specify which one to pick
+		const detailValueProperty = elm.getAttribute('data-metric-value-property');// sometimes (e.g. for battery) detail stores value in other property; specify which one to pick
 		const eventName = elm.getAttribute('data-metric-eventname') || name;
 		const value = elm.querySelector('[data-value');
 		const unit = elm.querySelector('[data-unit');
 
 		const metric = {
 			name,
-			property,
-			eventName
+			eventName,
+			detailObject,
+			detailValueProperty,
+			elms: {
+				value,
+				unit
+			}
 		};
 
-		metricsToTrack.push(metric);
-		metricElms[name] = {
-			value,
-			unit
-		};
+		metricsToTrack.set(name, metric);
 	});
-	console.log(metricElms);
 };
 
 
@@ -113,7 +109,7 @@ const initMetrics = function() {
 * 
 * @returns {undefined}
 */
-const initConnectScreen = function() {
+const initConnectButtons = function() {
 	document.getElementById(`connect-btn`).addEventListener('click', async () => {
 		start(thingy);
 	});
@@ -123,7 +119,6 @@ const initConnectScreen = function() {
 };
 
 
-
 /**
 * initialize all
 * @param {string} varname Description
@@ -131,7 +126,7 @@ const initConnectScreen = function() {
 */
 const init = function() {
 	initMetrics();
-	initConnectScreen();
+	initConnectButtons();
 };
 
 // kick of the script when all dom content has loaded

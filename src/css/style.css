@@ -55,16 +55,30 @@ h2 {
 
 .btn {
 	margin-left: 1em;
-	padding: 0.5em 1em;
-	border: 1px solid;
+	padding: 0.2em 0.6em;
+	border: 1px solid transparent;
+	border-bottom-color: currentColor;
 	background: transparent;
 	font: inherit;
 	color: inherit;
-	transition: opacity 0.5s ease-in-out;
+	opacity: 0.7;
+	transition-duration: 0.3s;
+	transition-timing-function: ease-in-out;
+	transition-property: border, opacity;
+	cursor: pointer;
 }
 
-.btn--is-disabled {
+.btn:hover,
+.btn:focus {
+	border-color: currentColor;
+	opacity: 1;
+}
+
+.btn--is-disabled,
+.btn--is-disabled:hover,
+.btn--is-disabled:focus {
 	opacity: 0;
+	pointer-events: none;
 }
 
 .dashboard {

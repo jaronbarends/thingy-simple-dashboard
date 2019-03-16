@@ -29,10 +29,18 @@ const formatUnit = function(unit) {
 const updateMetric = function(e) {
 	const metric = metricsToTrack.get(e.type);
 	const detail = metric.detailObject ? e.detail[metric.detailObject] : e.detail;
-	const value = metric.detailValueProperty ? detail[metric.detailValueProperty] : detail.value;
+	let value = metric.detailValueProperty ? detail[metric.detailValueProperty] : detail.value;
 	const unit = detail.unit;
 	
-	metric.elms.value.textContent = value;
+	// set value
+	const roundValue = Math.floor(value);
+	const digits = (roundValue === value) ? '' : `,${Math.round(10 * (value - roundValue))}`;
+	metric.elms.value.textContent = roundValue;
+	if (metric.elms.valueDigits) {
+		metric.elms.valueDigits.textContent = digits;
+	}
+
+	// set units
 	if (metric.elms.unit && unit) {
 		metric.elms.unit.textContent = formatUnit(unit);
 	}
@@ -86,8 +94,9 @@ const initMetrics = function() {
 		const detailObject = elm.getAttribute('data-metric-detail-object');// sometimes (e.g. for gas) detail has multiple objects; specify which one to pick
 		const detailValueProperty = elm.getAttribute('data-metric-value-property');// sometimes (e.g. for battery) detail stores value in other property; specify which one to pick
 		const eventName = elm.getAttribute('data-metric-eventname') || name;
-		const value = elm.querySelector('[data-value');
-		const unit = elm.querySelector('[data-unit');
+		const value = elm.querySelector('[data-value]');
+		const valueDigits = elm.querySelector('[data-value-digits]');
+		const unit = elm.querySelector('[data-unit]');
 
 		const metric = {
 			name,
@@ -96,6 +105,7 @@ const initMetrics = function() {
 			detailValueProperty,
 			elms: {
 				value,
+				valueDigits,
 				unit
 			}
 		};

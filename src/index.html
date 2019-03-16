@@ -12,37 +12,54 @@
 </head>
 <body>
 	<div class="o-content-width">
-		<div class="connect-screen">
-			<input type="button" id="connect-btn" value="connect">
-			<input type="button" id="disconnect-btn" value="disconnect">
-		</div>
 		
 		<div class="dashboard">
-				<div class="temperature-display" data-metric="temperature">
-					Temperature
-					<div class="temperature-value" data-value></div>
-					<div class="temperature-unit" data-unit></div>
+				<div class="metric-display" data-metric="temperature">
+					<h2>Temperature</h2>
+					<img class="icon" src="images/temperature.png" alt="">
+					<div class="value-box">
+						<span class="value" data-value>21</span>
+						<span class="value-digits" data-value-digits>.23</span>
+						<span class="unit" data-unit>°C</span>
+					</div>
 				</div>
-				<div class="humidity-display" data-metric="humidity">
-					Humidity
-					<div class="humidity-value" data-value></div>
-					<div class="humidity-unit" data-unit></div>
+				<div class="metric-display" data-metric="humidity">
+					<h2>Humidity</h2>
+					<img class="icon" src="images/humidity.png" alt="">
+					<div class="value-box">
+						<span class="value" data-value>38</span>
+						<span class="value-digits" data-value-digits></span>
+						<span class="unit" data-unit>%</span>
+					</div>
 				</div>
-				<div class="gas-display" data-metric="gas" data-metric-detail-object="eCO2">
-					CO<sub>2</sub>
-					<div class="gas-value" data-value></div>
-					<div class="gas-unit" data-unit></div>
+				<div class="metric-display" data-metric="pressure">
+					<h2>Air pressure</h2>
+					<img class="icon" src="images/pressure.png" alt="">
+					<div class="value-box">
+						<span class="value" data-value>1007</span>
+						<span class="value-digits" data-value-digits>.18</span>
+						<span class="unit" data-unit>hpa</span>
+					</div>
 				</div>
-				<div class="pressure-display" data-metric="pressure">
-					Air pressure
-					<div class="pressure-value" data-value></div>
-					<div class="pressure-unit" data-unit></div>
+				<div class="metric-display" data-metric="gas" data-metric-detail-object="eCO2">
+					<h2>CO<sub>2</sub></h2>
+					<img class="icon" src="images/co2.png" alt="">
+					<div class="value-box">
+						<span class="value" data-value>400</span>
+						<span class="value-digits" data-value-digits></span>
+						<span class="unit" data-unit>ppm</span>
+					</div>
 				</div>
-				<!-- <div class="battery-display" data-metric="battery" data-metric-value-property="status">
+				<!-- <div class="metric-display" data-metric="battery" data-metric-value-property="status">
 					Battery level
-					<div class="battery-value" data-value></div>
-					<div class="battery-unit" data-unit></div>
+					<span class="value" data-value></span>
+					<span class="unit" data-unit></span>
 				</div> -->
+		</div>
+
+		<div class="connect-box">
+			<input type="button" id="connect-btn" value="connect">
+			<input type="button" id="disconnect-btn" value="disconnect">
 		</div>
 
 	</div><!-- /.o-content-width -->

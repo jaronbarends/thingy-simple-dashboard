@@ -37,14 +37,6 @@ h2 {
 	text-align: center;
 }
 
-input {
-	padding: 0.5em 1em;
-	border: 1px solid;
-	background: transparent;
-	font: inherit;
-	color: inherit;
-}
-
 .o-content-width {
 	position: relative;
 	margin: 0 auto;
@@ -60,15 +52,26 @@ input {
 	justify-content: flex-end;
 }
 
-.connect-box input {
+
+.btn {
 	margin-left: 1em;
+	padding: 0.5em 1em;
+	border: 1px solid;
+	background: transparent;
+	font: inherit;
+	color: inherit;
+	transition: opacity 0.5s ease-in-out;
+}
+
+.btn--is-disabled {
+	opacity: 0;
 }
 
 .dashboard {
 	display: flex;
 	justify-content: space-between;
 	margin: 0 auto;
-	padding: 3em 0 0;
+	padding: 10em 0 0;
 }
 
 .metric-display {
@@ -110,5 +113,5 @@ input {
 }
 
 .value-digits::first-letter {
-	margin-left: -0.4em;
+	margin-left: -0.2em;
 }

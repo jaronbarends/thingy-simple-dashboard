@@ -1,6 +1,6 @@
 {
   "name": "thingy-simple-dashboard",
-  "version": "0.1",
+  "version": "1.0.0",
   "description": "A simple dashboard for showing environment metrics using a Nordic Thingy:52",
   "scripts": {
 	"server": "node webserver.js"
@@ -11,5 +11,5 @@
   },
   "author": "Jarón Barends",
   "license": "SEE LICENSE IN LICENSE.md",
-  "homepage": "https://github.com/jaronbarends/thingy-simple-dashboard#readme",
+  "homepage": "https://github.com/jaronbarends/thingy-simple-dashboard#readme"
 }

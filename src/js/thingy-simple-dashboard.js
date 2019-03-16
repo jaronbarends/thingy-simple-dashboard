@@ -2,6 +2,9 @@ import Thingy from "./vendor/thingy/index.js";
 
 const thingy = new Thingy({logEnabled: true});
 const metricsToTrack = new Map();
+const connectBtn = document.getElementById(`connect-btn`);
+const disconnectBtn = document.getElementById(`disconnect-btn`);
+const disabledBtnClass = 'btn--is-disabled';
 
 
 /**
@@ -54,6 +57,8 @@ const updateMetric = function(e) {
 const start = async function(device) {
 	try {
 		await device.connect();
+		connectBtn.classList.add(disabledBtnClass);
+		disconnectBtn.classList.remove(disabledBtnClass);
 		metricsToTrack.forEach( async (metric) => {
 			device.addEventListener(metric.eventName, updateMetric);
 			await device[metric.name].start();
@@ -71,6 +76,8 @@ const start = async function(device) {
 const stop = async function(device) {
 	try {
 		await device.disconnect();
+		connectBtn.classList.remove(disabledBtnClass);
+		disconnectBtn.classList.add(disabledBtnClass);
 		metricsToTrack.forEach( async (metric) => {
 			device.removeEventListener(metric.eventName, updateMetric);
 		});
@@ -120,10 +127,10 @@ const initMetrics = function() {
 * @returns {undefined}
 */
 const initConnectButtons = function() {
-	document.getElementById(`connect-btn`).addEventListener('click', async () => {
+	connectBtn.addEventListener('click', async () => {
 		start(thingy);
 	});
-	document.getElementById(`disconnect-btn`).addEventListener('click', async () => {
+	disconnectBtn.addEventListener('click', async () => {
 		stop(thingy);
 	});
 };

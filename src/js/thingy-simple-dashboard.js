@@ -63,6 +63,7 @@ const start = async function(device) {
 			device.addEventListener(metric.eventName, updateMetric);
 			await device[metric.name].start();
 		});
+		initBattery(device);
 	} catch (error) {
 	  console.error(error);
 	}
@@ -134,6 +135,32 @@ const initConnectButtons = function() {
 		stop(thingy);
 	});
 };
+
+/**
+* 
+* @returns {undefined}
+*/
+const updateBatteryStatus = function(status) {
+	document.getElementById(`battery-value`).textContent = status;
+	document.getElementById(`battery-icon`).setAttribute('style', `--status: ${parseInt(status, 10)/100}`);
+};
+
+
+
+/**
+* show battery level and set up listener
+* @returns {undefined}
+*/
+const initBattery = async function(device) {
+	const value = await device.battery.read();
+	updateBatteryStatus(value.status);
+
+	device.addEventListener('battery', (e) => {
+		updateBatteryStatus(e.detail.status);
+	});
+	device.battery.start();
+};
+
 
 
 /**

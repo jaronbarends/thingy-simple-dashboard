@@ -50,16 +50,17 @@
 						<span class="unit" data-unit>ppm</span>
 					</div>
 				</div>
-				<!-- <div class="metric-display" data-metric="battery" data-metric-value-property="status">
-					Battery level
-					<span class="value" data-value></span>
-					<span class="unit" data-unit></span>
-				</div> -->
 		</div>
 
+		
 		<div class="connect-box">
 			<input class="btn" type="button" id="connect-btn" value="connect">
 			<input class="btn btn--is-disabled" type="button" id="disconnect-btn" value="disconnect">
+
+			<div class="battery-status" >
+				<div id="battery-icon" class="battery-icon" style="--status: 0.5;"></div>
+				<span id="battery-value">&hellip;</span>%
+			</div>
 		</div>
 
 	</div><!-- /.o-content-width -->

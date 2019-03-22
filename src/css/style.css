@@ -44,43 +44,6 @@ h2 {
 	height: 100%;
 }
 
-.connect-box {
-	position: absolute;
-	right: 0;
-	bottom: 2em;
-	display: flex;
-	justify-content: flex-end;
-}
-
-
-.btn {
-	margin-left: 1em;
-	padding: 0.2em 0.6em;
-	border: 1px solid transparent;
-	border-bottom-color: currentColor;
-	background: transparent;
-	font: inherit;
-	color: inherit;
-	opacity: 0.7;
-	transition-duration: 0.3s;
-	transition-timing-function: ease-in-out;
-	transition-property: border, opacity;
-	cursor: pointer;
-}
-
-.btn:hover,
-.btn:focus {
-	border-color: currentColor;
-	opacity: 1;
-}
-
-.btn--is-disabled,
-.btn--is-disabled:hover,
-.btn--is-disabled:focus {
-	opacity: 0;
-	pointer-events: none;
-}
-
 .dashboard {
 	display: flex;
 	justify-content: space-between;
@@ -128,4 +91,79 @@ h2 {
 
 .value-digits::first-letter {
 	margin-left: -0.2em;
+}
+
+.connect-box {
+	position: absolute;
+	right: 0;
+	bottom: 2em;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+
+.btn {
+	margin-left: 1em;
+	padding: 0.2em 0.6em;
+	border: 1px solid transparent;
+	border-bottom-color: currentColor;
+	background: transparent;
+	font: inherit;
+	color: inherit;
+	opacity: 0.7;
+	transition-duration: 0.3s;
+	transition-timing-function: ease-in-out;
+	transition-property: border, opacity;
+	cursor: pointer;
+}
+
+.btn:hover,
+.btn:focus {
+	border-color: currentColor;
+	opacity: 1;
+}
+
+.btn--is-disabled,
+.btn--is-disabled:hover,
+.btn--is-disabled:focus {
+	opacity: 0;
+	pointer-events: none;
+}
+
+.battery-status {
+	margin-left: 2rem;
+	opacity: 0.7;
+}
+
+
+.battery-icon {
+	position: relative;
+	display: inline-block;
+	margin-right: 0.2em;
+	width: 1.8rem;
+	height: 0.8rem;
+	border: 1px solid white;
+}
+
+.battery-icon::before {
+	content: '';
+	position: absolute;
+	top: 50%;
+	right: 100%;
+	width: 3px;
+	height: 60%;
+	background: white;
+	transform: translateY(-50%);
+}
+
+.battery-icon::after {
+	content: '';
+	position: absolute;
+	top: 2px;
+	right: 2px;
+	width: calc((100% - 4px) * var(--status));
+	height: calc(100% - 4px);
+	background: white;
+	transition: width 0.3s ease-in-out;
 }

@@ -46,17 +46,29 @@ h2 {
 
 .dashboard {
 	display: flex;
-	justify-content: space-between;
+	justify-content: space-around;
+	flex-wrap: wrap;
 	margin: 0 auto;
-	padding: 10em 0 0;
+	padding: 10em 0;
 }
 
 .metric-display {
 	border-top: 1px solid;
 	border-bottom: 1px solid;
 	border-color: rgba(255, 255, 255, 0.3);
-	padding: 3em 0;
-	width: 15em;
+	padding: 10vh 0 0;
+	width: 20%;
+	max-width: 15em;
+}
+
+@media screen and (max-width: 800px) {
+	html {
+		font-size: 50%;
+	}
+	.metric-display {
+		width: 40%;
+		max-width: none;
+	}
 }
 
 .icon {
@@ -95,11 +107,27 @@ h2 {
 
 .connect-box {
 	position: absolute;
-	right: 0;
+	right: 2em;
 	bottom: 2em;
 	display: flex;
 	justify-content: flex-end;
 	align-items: center;
+}
+
+.connect-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background: rgba(255, 255, 255, 0.4);
+	background: rgba(0,0,0, 0.8);
+	transition: opacity 0.3s ease-in-out;
+}
+
+.connect-overlay--is-hidden {
+	opacity: 0;
+	pointer-events: none;
 }
 
 
@@ -129,6 +157,21 @@ h2 {
 .btn--is-disabled:focus {
 	opacity: 0;
 	pointer-events: none;
+}
+
+.btn--connect {
+	position: absolute;
+	top: 40%;
+	left: 50%;
+	transform: translateX(-50%);
+	border-color: currentColor;
+	padding: 0.5em 1em;
+}
+
+.btn--connect:hover,
+.btn--connect:focus {
+	background-color: rgba(255, 255, 255, 0.1);
+	box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
 .battery-status {

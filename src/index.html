@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="nl-nl">
+<html lang="en-en">
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -54,8 +54,12 @@
 
 		
 		<div class="connect-box">
-			<input class="btn" type="button" id="connect-btn" value="connect">
+			<div id="connect-overlay" class="connect-overlay">
+				<input class="btn btn--connect" type="button" id="connect-btn" value="Connect Thingy">
+			</div>
+			
 			<input class="btn btn--is-disabled" type="button" id="disconnect-btn" value="disconnect">
+			
 
 			<div class="battery-status" >
 				<div id="battery-icon" class="battery-icon" style="--status: 0.5;"></div>

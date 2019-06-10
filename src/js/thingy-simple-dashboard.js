@@ -2,9 +2,11 @@ import Thingy from "./vendor/thingy/index.js";
 
 const thingy = new Thingy({logEnabled: true});
 const metricsToTrack = new Map();
+const connectOverlay = document.getElementById(`connect-overlay`);
 const connectBtn = document.getElementById(`connect-btn`);
 const disconnectBtn = document.getElementById(`disconnect-btn`);
 const disabledBtnClass = 'btn--is-disabled';
+const overlayHiddenClass = 'connect-overlay--is-hidden';
 
 
 /**
@@ -57,6 +59,7 @@ const updateMetric = function(e) {
 const start = async function(device) {
 	try {
 		await device.connect();
+		connectOverlay.classList.add(overlayHiddenClass);
 		connectBtn.classList.add(disabledBtnClass);
 		disconnectBtn.classList.remove(disabledBtnClass);
 		metricsToTrack.forEach( async (metric) => {
@@ -77,6 +80,7 @@ const start = async function(device) {
 const stop = async function(device) {
 	try {
 		await device.disconnect();
+		connectOverlay.classList.remove(overlayHiddenClass);
 		connectBtn.classList.remove(disabledBtnClass);
 		disconnectBtn.classList.add(disabledBtnClass);
 		metricsToTrack.forEach( async (metric) => {
